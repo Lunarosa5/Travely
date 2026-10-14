@@ -1,9 +1,9 @@
-# Travelly — Especificação de Requisitos de Software (SRS/ERS)
+# Travelly — Documentação (SRS/ERS)
 
 **Sistema:** Travelly — Diário de Viagens  
 **Tipo de documento:** Especificação de Requisitos de Software (SRS/ERS)  
 **Referência de estrutura:** ISO/IEC/IEEE 29148:2018  
-**Versão:** 1.0.0  
+**Versão:** 1.3
 **Data:** Outubro de 2026  
 **Curso:** Técnico em Desenvolvimento de Sistemas — SENAI  
 **Tecnologias utilizadas:** PHP, PostgreSQL, HTML e CSS
@@ -360,8 +360,6 @@ Travelly/
 
 ## 6.1. Diagrama Entidade-Relacionamento (DER)
 
-O DER abaixo representa a relação necessária ao comportamento informado: um usuário pode possuir várias viagens, enquanto cada viagem deve estar associada a um único usuário. O diagrama é conceitual até ser conferido com as chaves e os nomes reais do banco.
-
 ```mermaid
 erDiagram
     USUARIOS ||--o{ VIAGENS : "cadastra"
@@ -394,7 +392,7 @@ erDiagram
  
 **Relacionamentos:**
 - Usuários e Viagens (USUARIOS -> VIAGENS): Um usuário pode registrar várias viagens, e cada viagem pertence a apenas um usuário através do campo id_usuario, ou seja, 1:N.
-- Viagens e Fotos (VIAGENS -> FOTOS_VIAGEM) -: Uma viagem pode ter várias fotos (ou nenhuma), e cada foto pertence a uma única viagem através do campo id_viagem, ou seja, 1:N.
+- Viagens e Fotos (VIAGENS -> FOTOS_VIAGEM): Uma viagem pode ter várias fotos (ou nenhuma), e cada foto pertence a uma única viagem através do campo id_viagem, ou seja, 1:N.
 
 **Regras e Chaves:**
 - PK (Chave Primária): Identificador exclusivo e automático de cada registro (é o campo id em todas as tabelas).
@@ -417,8 +415,8 @@ O dicionário de dados descreve o significado dos campos, seus tipos conceituais
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
 | **ID do Usuário** | `id` | `INT` | Identificador único do usuário | PK | `NOT NULL` | Número inteiro | -- | -- |
 | **Nome Completo** | `nome` | `VARCHAR(100)` | Nome completo informado pelo usuário no cadastro | -- | `NOT NULL` | Caractere | -- | -- |
-| **E-mail de Acesso** | `email` | `VARCHAR(100)` | Endereço de e-mail único do usuário para login | **UK** | `NOT NULL` | Caractere | -- | -- |
-| **Senha Criptografada** | `senha` | `VARCHAR(255)` | Hash seguro da senha gerado via `password_hash()` | -- | `NOT NULL` | Caractere | -- | -- |
+| **E-mail de Acesso** | `email` | `VARCHAR(100)` | Endereço de e-mail único do usuário para login | UK | `NOT NULL` | Caractere | -- | -- |
+| **Senha Criptografada** | `senha` | `VARCHAR(255)` | Hash da senha gerado via `password_hash()` | -- | `NOT NULL` | Caractere | -- | -- |
 
 ---
 
@@ -432,7 +430,7 @@ O dicionário de dados descreve o significado dos campos, seus tipos conceituais
 | **Destino** | `destino` | `VARCHAR(150)` | Cidade, país ou local visitado | -- | `NOT NULL` | Caractere | -- | -- |
 | **Data de Início** | `data_inicio` | `DATE` | Data de início da viagem | -- | `NOT NULL` | Data | `DD/MM/AAAA` | -- |
 | **Data de Término** | `data_fim` | `DATE` | Data de encerramento da viagem | -- | `NOT NULL` | Data | `DD/MM/AAAA` | -- |
-| **Relato da Viagem** | `relato` | `TEXT` | Texto detalhado da experiência e história da viagem | -- | `NOT NULL` | Texto longo | -- | -- |
+| **Relato da Viagem** | `relato` | `TEXT` | Texto da experiência e história da viagem | -- | `NOT NULL` | Texto longo | -- | -- |
 | **Avaliação** | `avaliacao` | `INT` | Nota/pontuação de 1 a 5 dada à viagem | -- | `NULL` | Número inteiro | -- | -- |
 
 ---
@@ -497,15 +495,11 @@ A tabela abaixo reúne as funcionalidades descritas para o projeto e melhorias r
 | PB-011 | Editar Perfil | Permite ao usuário atualizar suas informações pessoais (como nome e e-mail). | Alta |
 | PB-012 | Excluir Conta | Apaga a conta do usuário e limpa automaticamente todas as suas viagens e fotos do banco. | Alta |
 | PB-013 | Validação de Dados | Checa os campos antes de salvar e mostra mensagens claras em caso de erro. | Alta |
-| PB-014 | Segurança no Banco (PDO) | Protege o sistema contra invasões (SQL Injection) usando Prepared Statements. | Alta |
 | PB-015 | Permissão de Acesso | Garante que o usuário só consiga ver, editar ou apagar as suas próprias viagens. | Alta |
-| PB-016 | Visual Responsivo | Garante que a interface funcione bem em telas de computador e celular. | Média |
-| PB-017 | Testes do Sistema | Executa e registra os testes para garantir que tudo está funcionando sem erros. | Alta |
-| PB-018 | Documentação do Projeto | Fornece as instruções de instalação, script do banco SQL e organização das pastas. | Alta |
-| PB-019 | Anexo de Fotos | Permite enviar fotos para acompanhar os relatos das viagens. | Baixa |
-| PB-020 | Recuperar Senha | Permite redefinir a senha caso o usuário a esqueça (melhoria futura). | Média |
-| PB-021 | Compartilhar Viagens | Permite mostrar fotos e relatos para outros usuários (melhoria futura). | Baixa |
-| PB-022 | Backup do Banco | Define uma rotina para salvar cópias de segurança do banco de dados. | Média |
+| PB-016 | Documentação do Projeto | Fornece as informações do projeto, como instruções de instalação, organização das pastas, product backlog e outros. | Alta |
+| PB-017 | Anexo de Fotos | Permite enviar fotos para acompanhar os relatos das viagens. | Baixa |
+| PB-018 | Recuperar Senha | Permite redefinir a senha caso o usuário a esqueça (melhoria futura). | Média |
+| PB-019 | Compartilhar Viagens | Permite mostrar fotos e relatos para outros usuários (melhoria futura). | Baixa |
 
 ---
 
