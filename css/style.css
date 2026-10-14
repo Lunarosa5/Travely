@@ -45,16 +45,10 @@ body.fundo {
     max-width: 720px;
     padding: 45px 50px 40px 50px;
     border-radius: 28px;
-
-    /* Efeito de vidro fosco idêntico à foto */
     background: rgba(238, 245, 242, 0.5);
     -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(5px);
-
-
-    /* Borda suave de contraste */
+    backdrop-filter: blur(15px); /* CORRIGIDO: Ajustado para 15px para sincronizar */
     border: 1px solid rgba(255, 255, 255, 0.5);
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -415,7 +409,7 @@ body.fundo-login {
 /* Reset de tela inteira com a cor exata #fef9f3 */
 html,
 body.fundo-dashboard {
-    width: 100vw;
+    width: 100%; /* CORRIGIDO: Mudado de 100vw para 100% para evitar rolagem horizontal */
     min-height: 100vh;
     margin: 0;
     padding: 0;
@@ -425,7 +419,7 @@ body.fundo-dashboard {
 }
 
 .dashboard-container {
-    width: 100vw;
+    width: 100%; /* CORRIGIDO: Mudado de 100vw para 100% */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -1171,15 +1165,15 @@ footer.rodape {
     gap: 25px;
 }
 
-/* Cartões de Resultados (gerados pela função pesquisar()) */
-.resultado-pesquisa-container .espaço-viagem {
+/* Cartões de Resultados (gerados pela função pesquisar()) *//* Cartões de Resultados */
+.resultado-pesquisa-container .espaco-viagem { /* CORRIGIDO: Removido o 'ç' de espaço */
     background-color: #fef9f3;
     border: 3px solid #0d8c97;
     border-radius: 18px;
     padding: 18px;
     display: flex;
     gap: 20px;
-    width: calc(50% - 13px); /* 2 cartões por linha */
+    width: calc(50% - 13px); 
     box-sizing: border-box;
     align-items: center;
     box-shadow: 0 6px 12px rgba(13, 140, 151, 0.12);

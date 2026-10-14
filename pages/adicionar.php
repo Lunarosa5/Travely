@@ -1,10 +1,14 @@
 <?php
+
+// A sessão é iniciada
 session_start();
 
+// Carrega os arquivos que serão usados para o funcionamento da página
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../login/verifica_user.php';
 require_once __DIR__ . '/../database/connect.php';
 
+// Guarda a data atual no formato ano-mês-dia (por exemplo 2026-10-21).
 $hoje = date('Y-m-d');
 ?>
 
@@ -27,14 +31,26 @@ $hoje = date('Y-m-d');
             <h1 class="titulo-pagina">Descreva sua nova viagem</h1>
 
             <?php
+
+            // Verifica se a requisição método POST foi enviada.
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+            // Salva na variável $id_usuario o valor do id do usuário atual da sessão.
                 $id_usuario = $_SESSION['id_usuario'];
+
+                // Cria uma variável chamada $titulo que junta o texto "Viagem para " com o valor armazenado na coluna destino no bcd.
                 $titulo = "Viagem para " . $_POST['destino'];
 
-                // Conta quantas fotos foram selecionadas de fato
+                // Começa a contagem de fotos enviadas do zero
                 $total_fotos = 0;
+
+                // Verifica se existe um arquivo ou arquivos (array) 
                 if (isset($_FILES['imagem']['name']) && is_array($_FILES['imagem']['name'])) {
+
+                // Cria um loop que percorre cada arquivo enviado e a cada repetição que acontece, o nome do arquivo é guardado na variável $nome.
                     foreach ($_FILES['imagem']['name'] as $nome) {
+
+                    // Se $nome nõ esta vazio, a cada arquivo somará +1 no contador.
                         if (!empty($nome)) {
                             $total_fotos++;
                         }
@@ -45,6 +61,7 @@ $hoje = date('Y-m-d');
                 if ($total_fotos > 10) {
                     echo "<div class='container-mensagem'><p class='caixa-mensagem erro'>Você só pode adicionar até 10 imagens por viagem!</p></div>";
                 } else {
+
                     // Tenta cadastrar a viagem normalmente
                     $id_viagem_criada = cadastrar_viagem(
                         $conexao,
