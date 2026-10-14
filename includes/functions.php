@@ -93,7 +93,7 @@ function ultimas_viagens($conexao, $id_usuario)
 {
     $sql = "SELECT * FROM viagens 
             WHERE id_usuario = :id_usuario 
-            ORDER BY data_inicio DESC 
+            ORDER BY id DESC 
             LIMIT 2";
 
     try {
@@ -198,10 +198,10 @@ function excluir($conexao, $id, $id_usuario)
         $stmt->bindParam(":id_usuario", $id_usuario);
 
         if ($stmt->execute()) {
-            echo "<p style='color: green;'>Viagem apagada com sucesso!</p>";
+            echo "<p class='caixa-mensagem'>Viagem apagada com sucesso!</p>";
         }
     } catch (PDOException $e) {
-        echo "<p style='color: red;'>Erro ao apagar viagem: " . $e->getMessage() . "</p>";
+        echo "<p class='caixa-mensagem erro'>Erro ao apagar viagem: " . $e->getMessage() . "</p>";
     }
 }
 
@@ -324,24 +324,31 @@ function excluir_conta($conexao, $id_usuario)
 // foto_viagem: função para mover até 10 fotos para a pasta uploads e salvar no banco de dados
 function foto_viagem($conexao, $id_viagem, $arquivo)
 {
-    // Se não houver arquivo enviado, encerra a função
+    // Se não houver arquivo enviado, encerra
     if (empty($arquivo['name'])) {
-        return;
+        return true;
     }
 
-    // Se $arquivo['name'] for um array (múltiplas fotos), processa em loop
+    // Se for múltiplos arquivos (array)
     if (is_array($arquivo['name'])) {
-        if (empty($arquivo['name'][0])) {
-            return;
+        // Conta quantos arquivos realmente foram selecionados (ignorando os vazios)
+        $total_enviados = 0;
+        foreach ($arquivo['name'] as $nome) {
+            if (!empty($nome)) {
+                $total_enviados++;
+            }
         }
 
-        $total_enviados = count($arquivo['name']);
-        $limite = min($total_enviados, 10);
+        // Se o usuário selecionou mais de 10 imagens, exibe a mensagem e interrompe
+        if ($total_enviados > 10) {
+            echo "<div class='container-mensagem'><p class='caixa-mensagem erro'>Você só pode adicionar até 10 imagens por viagem!</p></div>";
+            return false;
+        }
 
-        for ($i = 0; $i < $limite; $i++) {
-            if (isset($arquivo['error'][$i]) && $arquivo['error'][$i] === UPLOAD_ERR_OK) {
-                $extensao = pathinfo($arquivo['name'][$i], PATHINFO_EXTENSION);
-                $novo_nome = "foto_" . time() . "_{$i}." . $extensao;
+        for ($i = 0; $i < count($arquivo['name']); $i++) {
+            if (!empty($arquivo['name'][$i]) && isset($arquivo['error'][$i]) && $arquivo['error'][$i] === UPLOAD_ERR_OK) {
+                $extensao = strtolower(pathinfo($arquivo['name'][$i], PATHINFO_EXTENSION));
+                $novo_nome = "foto_" . uniqid() . "_" . $i . "." . $extensao;
                 $destino = __DIR__ . '/../uploads/' . $novo_nome;
 
                 if (move_uploaded_file($arquivo['tmp_name'][$i], $destino)) {
@@ -355,9 +362,9 @@ function foto_viagem($conexao, $id_viagem, $arquivo)
         }
     } else {
         // Se $arquivo['name'] for uma string simples (apenas 1 foto)
-        if ($arquivo['error'] === UPLOAD_ERR_OK) {
-            $extensao = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
-            $novo_nome = "foto_" . time() . "." . $extensao;
+        if (!empty($arquivo['name']) && isset($arquivo['error']) && $arquivo['error'] === UPLOAD_ERR_OK) {
+            $extensao = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
+            $novo_nome = "foto_" . uniqid() . "." . $extensao;
             $destino = __DIR__ . '/../uploads/' . $novo_nome;
 
             if (move_uploaded_file($arquivo['tmp_name'], $destino)) {
@@ -369,6 +376,8 @@ function foto_viagem($conexao, $id_viagem, $arquivo)
             }
         }
     }
+
+    return true;
 }
 
 // Função para buscar as fotos de uma viagem

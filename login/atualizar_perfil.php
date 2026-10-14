@@ -18,46 +18,72 @@ $id_usuario = $_SESSION['id_usuario'];
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
-<body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
+<body class="fundo-dashboard">
+    <div class="dashboard-container">
+        <?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <main>
-        <h1>Editar dados do Perfil</h1>
+        <main class="dashboard-conteudo-perfil">
+            <h1 class="titulo-pagina">Atualizar Meu Perfil</h1>
 
-        <?php
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $nome = $_POST['nome'];
-            $email = $_POST['email'];
-            $senha_atual = $_POST['senha_atual'];
-            $senha_nova = $_POST['senha_nova'];
+            <?php
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $nome = $_POST['nome'];
+                $email = $_POST['email'];
+                $senha_atual = $_POST['senha_atual'];
+                $senha_nova = $_POST['senha_nova'];
 
-            // Chama a função e ela mesma faz o echo da mensagem
-            atualizar_perfil($conexao, $id_usuario, $nome, $email, $senha_atual, $senha_nova);
-        }
+                // Envolve o retorno da função no container-mensagem
+                echo "<div class='container-mensagem'>";
+                atualizar_perfil($conexao, $id_usuario, $nome, $email, $senha_atual, $senha_nova);
+                echo "</div>";
+            }
 
-        // Busca os dados do utilizador para preencher os campos do formulário
-        $usuario = buscar_usuario($conexao, $id_usuario);
-        ?>
+            // Busca os dados do usuário para preencher os campos do formulário
+            $usuario = buscar_usuario($conexao, $id_usuario);
+            ?>
 
-        <form action="" method="POST">
-            <label for="nome">Nome:</label><br>
-            <input type="text" name="nome" id="nome" value="<?= htmlspecialchars($_POST['nome'] ?? $usuario['nome']); ?>" required><br><br>
+            <div class="card-perfil-container">
+                <!-- Foto do Perfil Redonda -->
+                <div class="avatar-circulo">
+                    <img src="../images/foto_perfil.png" alt="Foto de Perfil" class="foto-perfil-redonda">
+                </div>
 
-            <label for="email">E-mail:</label><br>
-            <input type="email" name="email" id="email" value="<?= htmlspecialchars($_POST['email'] ?? $usuario['email']); ?>" required><br><br>
+                <form action="" method="POST" class="form-perfil-campos">
+                    <!-- Nome -->
+                    <div class="campo-perfil-item">
+                        <label for="nome">Insira o nome de usuário:</label>
+                        <input type="text" name="nome" id="nome" value="<?= ($_POST['nome'] ?? $usuario['nome']); ?>" required class="input-perfil-pino">
+                    </div>
 
-            <label for="senha_atual">Senha Atual:</label><br>
-            <input type="password" name="senha_atual" id="senha_atual" required><br><br>
+                    <!-- Email -->
+                    <div class="campo-perfil-item">
+                        <label for="email">Insira o email:</label>
+                        <input type="email" name="email" id="email" value="<?= ($_POST['email'] ?? $usuario['email']); ?>" required class="input-perfil-pino">
+                    </div>
 
-            <label for="senha_nova">Nova Senha (opcional):</label><br>
-            <input type="password" name="senha_nova" id="senha_nova"><br><br>
+                    <!-- Senha Atual -->
+                    <div class="campo-perfil-item">
+                        <label for="senha_atual">Insira sua senha atual:</label>
+                        <input type="password" name="senha_atual" id="senha_atual" required class="input-perfil-pino">
+                    </div>
 
-            <input type="submit" value="Salvar Alterações">
-            <a href="../pages/perfil.php">Cancelar</a>
-        </form>
-    </main>
+                    <!-- Nova Senha -->
+                    <div class="campo-perfil-item">
+                        <label for="senha_nova">Insira uma nova senha:</label>
+                        <input type="password" name="senha_nova" id="senha_nova" class="input-perfil-pino">
+                    </div>
 
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+                    <!-- Botões de Ação Centralizados Embaixo -->
+                    <div class="container-botoes-perfil">
+                        <a href="../pages/perfil.php" class="btn-perfil-acao">Voltar</a>
+                        <input type="submit" value="Salvar" class="btn-perfil-acao">
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <?php include __DIR__ . '/../includes/footer.php'; ?>
+    </div>
 </body>
 
 </html>

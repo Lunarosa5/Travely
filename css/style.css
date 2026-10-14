@@ -392,7 +392,7 @@ body.fundo-login {
 
 /* MENSAGEM DE ERRO (CASO SENHA ERRAM) */
 .alerta.erro {
-    color: #d9534f;
+    color: #0b8a92;
     text-align: center;
     margin-top: 12px;
     font-weight: 600;
@@ -815,8 +815,29 @@ footer.rodape {
 
 /* Caso queira uma cor de destaque leve para erro (opcional, mantendo a borda turquesa) */
 .caixa-mensagem.erro {
-    background-color: #c0392b;
-    /* Vermelho para erro, ou mantenha #0d8c97 se preferir */
+    background-color: #0b8a92;
+}
+/* CONTAINER CENTRALIZADO DA MENSAGEM */
+.container-mensagem {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 15px 0 20px 0;
+}
+
+/* CAIXA DA MENSAGEM (ESTILO IGUAL À SUA IMAGEM) */
+.container-mensagem p,
+.caixa-mensagem {
+    background-color: #0d8c97;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 12px 35px;
+    border-radius: 15px;
+    text-align: center;
+    display: inline-block;
+    margin: 0;
+    box-shadow: 0 4px 10px rgba(13, 140, 151, 0.2);
 }
 
 /* ======================================================= */
@@ -1231,4 +1252,155 @@ footer.rodape {
     font-weight: bold;
     font-size: 1.2rem;
     margin-top: 30px;
+}
+
+/* ======================================================= */
+/*                       PERFIL.PHP                        */
+/* ======================================================= */
+
+.dashboard-conteudo-perfil {
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.card-perfil-container {
+    background-color: #fef9f3;
+    border: 3px solid #0d8c97;
+    border-radius: 18px;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 8px 15px rgba(13, 140, 151, 0.12);
+}
+
+/* Container da Foto de Perfil Redonda */
+.avatar-circulo {
+    width: 100px;
+    height: 100px;
+    border: 3px solid #0d8c97; /* Borda azul redondinha */
+    border-radius: 50%; /* Garante o formato perfeitamente redondo */
+    overflow: hidden; /* Corta qualquer parte da imagem que saia do círculo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 8px rgba(13, 140, 151, 0.15);
+}
+
+/* Estilo da Imagem dentro do Círculo */
+.foto-perfil-redonda {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta a imagem sem esticar ou distorcer */
+}
+
+/* Campos de Dados */
+.form-perfil-campos {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.campo-perfil-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo-perfil-item label {
+    color: #0d8c97;
+    font-weight: bold;
+    font-size: 1.15rem;
+}
+
+.input-perfil-pino {
+    width: 100%;
+    background-color: #0d8c97;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 14px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+/* Botões de Ação na Parte Inferior */
+.container-botoes-perfil {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.form-excluir-inline {
+    margin: 0;
+}
+
+.btn-perfil-acao {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #0d8c97;
+    border: 2.5px solid #0d8c97;
+    border-radius: 20px;
+    padding: 8px 35px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-perfil-acao:hover {
+    background-color: #0d8c97;
+    color: #ffffff;
+}
+
+/* Ajustes para formulário dentro do card do perfil */
+.card-perfil-container form.form-perfil-campos {
+    width: 100%;
+}
+
+.input-perfil-pino:focus {
+    outline: 2px solid #0a6f78;
+}
+
+/* Garante o tipo de cursor e fundo no hover dos botões de submit */
+input.btn-perfil-acao {
+    font-family: inherit;
+}
+
+.container-mensagem {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Aplica o estilo bonito do alerta no parágrafo gerado pela função */
+.container-mensagem p {
+    background-color: #0d8c97;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.05rem;
+    padding: 12px 25px;
+    border-radius: 14px;
+    text-align: center;
+    margin: 0;
+    box-shadow: 0 4px 10px rgba(13, 140, 151, 0.2);
+    display: inline-block;
+}
+
+/* Caso a mensagem comece com 'Erro' ou 'Senha atual incorreta' */
+.container-mensagem.alerta-erro p {
+    background-color: #0d8c97;
 }

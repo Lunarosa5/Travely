@@ -23,40 +23,54 @@ $usuario = buscar_usuario($conexao, $_SESSION['id_usuario']);
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
-<body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
+<body class="fundo-dashboard">
+    <div class="dashboard-container">
+        <?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <main>
-        <h1>Meu Perfil</h1>
+        <main class="dashboard-conteudo-perfil">
+            <h1 class="titulo-pagina">Meu Perfil</h1>
 
-        <div class="caixa-perfil">
-            <div class="foto-perfil">
-                <img src="../assets/img/avatar.png" alt="Avatar do usuário" width="100">
+            <div class="card-perfil-container">
+                
+                <!-- Ícone / Foto do Perfil -->
+                <div class="avatar-circulo">
+                    <img src="../images/foto_perfil.png" alt="Foto de Perfil" class="foto-perfil-redonda">
+                </div>
+
+                <div class="form-perfil-campos">
+                    <!-- Nome -->
+                    <div class="campo-perfil-item">
+                        <label>Nome:</label>
+                        <input type="text" value="<?= ($usuario['nome'] ?? ''); ?>" readonly class="input-perfil-pino">
+                    </div>
+
+                    <!-- Email -->
+                    <div class="campo-perfil-item">
+                        <label>Email:</label>
+                        <input type="email" value="<?= ($usuario['email'] ?? ''); ?>" readonly class="input-perfil-pino">
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="campo-perfil-item">
+                        <label>Senha:</label>
+                        <input type="password" value="********" readonly class="input-perfil-pino">
+                    </div>
+                </div>
+
+                <!-- Botões de Ação Centralizados Embaixo -->
+                <div class="container-botoes-perfil">
+                    <form action="" method="POST" onsubmit="return confirm('Tem certeza de que deseja excluir sua conta? Esta ação apagará todos os seus relatos e não poderá ser desfeita!');" class="form-excluir-inline">
+                        <input type="hidden" name="acao" value="excluir_conta">
+                        <input type="submit" value="Excluir" class="btn-perfil-acao btn-perfil-excluir">
+                    </form>
+
+                    <a href="../login/atualizar_perfil.php" class="btn-perfil-acao btn-perfil-atualizar">Atualizar</a>
+                </div>
             </div>
+        </main>
 
-            <label><strong>Nome:</strong></label><br>
-            <input type="text" value="<?= htmlspecialchars($usuario['nome'] ?? ''); ?>" readonly><br><br>
-
-            <label><strong>Email:</strong></label><br>
-            <input type="email" value="<?= htmlspecialchars($usuario['email'] ?? ''); ?>" readonly><br><br>
-
-            <label><strong>Senha:</strong></label><br>
-            <input type="password" value="********" readonly><br><br>
-
-            <div class="acoes-perfil">
-                <!-- Formulário para Excluir Conta com confirmação -->
-                <form action="" method="POST" onsubmit="return confirm('Tem certeza de que deseja excluir sua conta? Esta ação apagarar todas as suas viagens e não poderá ser desfeita!');">
-                    <input type="hidden" name="acao" value="excluir_conta">
-                    <input type="submit" value="Excluir">
-                </form>
-
-                <!-- Redireciona direto para a nova página -->
-                <a href="../login/atualizar_perfil.php"><button type="button">Atualizar</button></a>
-            </div>
-        </div>
-    </main>
-
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+        <?php include __DIR__ . '/../includes/footer.php'; ?>
+    </div>
 </body>
 
 </html>

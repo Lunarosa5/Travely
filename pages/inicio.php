@@ -78,15 +78,15 @@ if ($dados['media_notas']) {
                         ?>
                             <div class="espaco-viagem">
                                 <div class="imagem-viagem">
-                                    <img src="<?php echo htmlspecialchars($caminho_imagem); ?>" alt="Foto da viagem">
+                                    <img src="<?php echo ($caminho_imagem); ?>" alt="Foto da viagem">
                                 </div>
 
                                 <div class="info-viagem">
-                                    <p class="titulo-local"><strong><?php echo htmlspecialchars($viagem['destino']); ?></strong></p>
+                                    <p class="titulo-local"><strong><?php echo ($viagem['destino']); ?></strong></p>
                                     <p>Data: <span><?php echo date('d/m/Y', strtotime($viagem['data_inicio'])); ?></span></p>
-                                    <p>Nota: <span><?php echo htmlspecialchars($viagem['avaliacao']); ?></span></p>
+                                    <p>Nota: <span><?php echo ($viagem['avaliacao']); ?></span></p>
 
-                                    <a href="detalhes_viagem.php?id=<?php echo $viagem['id']; ?>&origem=inicio" class="btn-ver-mais">Ver mais</a>
+                                    <a href="detalhes_viagem.php?id=<?= $viagem['id']; ?>&origem=inicio" class="btn-ver-mais">Ver mais</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>

@@ -20,10 +20,7 @@ require_once __DIR__ . '/../database/connect.php';
         <?php include __DIR__ . '/../includes/header.php'; ?>
 
         <main class="dashboard-conteudo-pesquisar">
-            <!-- Botão Voltar -->
-            <a href="inicio.php" class="btn-voltar-link">&#129144; Voltar</a>
-
-            <h1 class="titulo-pagina">Encontre uma viagem</h1>
+            <h1 class="titulo-pagina">Encontre o relato de uma viagem</h1>
 
             <form action="" method="POST" class="form-pesquisa">
                 <div class="campo-pesquisa-grupo">
@@ -44,13 +41,13 @@ require_once __DIR__ . '/../database/connect.php';
                             ?>
                             <div class="espaco-viagem">
                                 <div class="caixa-imagem">
-                                    <img src="<?= htmlspecialchars($caminho_imagem); ?>" alt="Foto de <?= htmlspecialchars($viagem['destino']); ?>">
+                                    <img src="<?= ($caminho_imagem); ?>" alt="Foto de <?= ($viagem['destino']); ?>">
                                 </div>
 
                                 <div class="info-viagem">
-                                    <p class="titulo-local"><strong><?= htmlspecialchars($viagem['destino']); ?></strong></p>
+                                    <p class="titulo-local"><strong><?= ($viagem['destino']); ?></strong></p>
                                     <p>Data: <span><?= date('d/m/Y', strtotime($viagem['data_inicio'])); ?></span></p>
-                                    <p>Nota: <span><?= htmlspecialchars($viagem['avaliacao']); ?></span></p>
+                                    <p>Nota: <span><?= ($viagem['avaliacao']); ?></span></p>
 
                                     <a href="detalhes_viagem.php?id=<?= $viagem['id']; ?>&origem=pesquisar" class="btn-ver-mais">Ver mais</a>
                                 </div>

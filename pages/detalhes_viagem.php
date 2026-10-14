@@ -14,17 +14,9 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $id_viagem = (int)$_GET['id'];
 
-// 2. Define o destino do botão "Voltar" com base no parâmetro 'origem' da URL
-$origem = isset($_GET['origem']) ? $_GET['origem'] : 'viagens';
-
-if ($origem === 'inicio') {
-    $link_voltar = 'inicio.php';
-} elseif ($origem === 'pesquisar.php') {
-    $link_voltar = 'pesquisar.php';
-} elseif ($origem === 'excluir.php') {
-    $link_voltar = 'excluir.php';
-} elseif ($origem === 'atualizar.php') {
-    $link_voltar = 'atualizar.php'; }
+// 2. Define o link de voltar de forma simples e dinâmica (.php adicionado direto)
+$origem = $_GET['origem'] ?? 'viagens';
+$link_voltar = $origem . '.php';
 
 // 3. Busca a viagem no banco de dados
 $sql = "SELECT * FROM viagens WHERE id = :id AND id_usuario = :id_usuario";
@@ -61,7 +53,7 @@ $total_fotos = count($lista_fotos);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($viagem['titulo']); ?> - Travely</title>
+    <title><?php echo ($viagem['titulo']); ?> - Travely</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -70,10 +62,10 @@ $total_fotos = count($lista_fotos);
         <?php include __DIR__ . '/../includes/header.php'; ?>
 
         <main class="dashboard-conteudo-detalhes">
-            <!-- Botão Voltar -->
-            <a href="<?php echo $link_voltar; ?>" class="btn-voltar-link">⬅ Voltar</a>
+            <!-- Botão Voltar Dinâmico -->
+            <a href="<?php echo ($link_voltar); ?>" class="btn-voltar-link">⬅ Voltar</a>
 
-            <h1 class="titulo-detalhe-viagem"><?php echo htmlspecialchars($viagem['titulo']); ?></h1>
+            <h1 class="titulo-detalhe-viagem"><?php echo ($viagem['titulo']); ?></h1>
 
             <div class="card-detalhe-container">
                 
@@ -84,7 +76,7 @@ $total_fotos = count($lista_fotos);
 
                     <div class="foto-detalhe-caixa">
                         <?php foreach ($lista_fotos as $index => $caminho): ?>
-                            <img src="<?php echo htmlspecialchars($caminho); ?>" alt="Foto de <?php echo htmlspecialchars($viagem['destino']); ?>" class="slide-foto foto-<?= $index; ?>">
+                            <img src="<?php echo ($caminho); ?>" alt="Foto de <?php echo ($viagem['destino']); ?>" class="slide-foto foto-<?= $index; ?>">
                         <?php endforeach; ?>
                     </div>
 
@@ -103,7 +95,6 @@ $total_fotos = count($lista_fotos);
                     <?php endif; ?>
                 </div>
 
-                
                 <div class="info-detalhe-conteudo">
                     <div class="campo-info">
                         <h3>Data:</h3>
@@ -115,15 +106,13 @@ $total_fotos = count($lista_fotos);
                     <div class="campo-info">
                         <h3>Avaliação:</h3>
                         <div class="pilula-info pilula-curta">
-                            <?php echo htmlspecialchars($viagem['avaliacao']); ?>
+                            <?php echo ($viagem['avaliacao']); ?>
                         </div>
                     </div>
 
                     <div class="campo-info">
-                        <div class="campo-info">
-                            <h3>Relato:</h3>
-                            <textarea class="caixa-relato-info" rows="5" readonly><?php echo htmlspecialchars($viagem['relato']); ?></textarea>
-                        </div>
+                        <h3>Relato:</h3>
+                        <textarea class="caixa-relato-info" rows="5" readonly><?php echo ($viagem['relato']); ?></textarea>
                     </div>
                 </div>
             </div>
