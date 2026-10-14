@@ -392,7 +392,7 @@ erDiagram
  
 **Relacionamentos:**
 - Usuários e Viagens (USUARIOS -> VIAGENS): Um usuário pode registrar várias viagens, e cada viagem pertence a apenas um usuário através do campo id_usuario, ou seja, 1:N.
-- Viagens e Fotos (VIAGENS -> FOTOS_VIAGEM) -: Uma viagem pode ter várias fotos (ou nenhuma), e cada foto pertence a uma única viagem através do campo id_viagem, ou seja, 1:N.
+- Viagens e Fotos (VIAGENS -> FOTOS_VIAGEM): Uma viagem pode ter várias fotos (ou nenhuma), e cada foto pertence a uma única viagem através do campo id_viagem, ou seja, 1:N.
 
 **Regras e Chaves:**
 - PK (Chave Primária): Identificador exclusivo e automático de cada registro (é o campo id em todas as tabelas).
@@ -415,8 +415,8 @@ O dicionário de dados descreve o significado dos campos, seus tipos conceituais
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
 | **ID do Usuário** | `id` | `INT` | Identificador único do usuário | PK | `NOT NULL` | Número inteiro | -- | -- |
 | **Nome Completo** | `nome` | `VARCHAR(100)` | Nome completo informado pelo usuário no cadastro | -- | `NOT NULL` | Caractere | -- | -- |
-| **E-mail de Acesso** | `email` | `VARCHAR(100)` | Endereço de e-mail único do usuário para login | **UK** | `NOT NULL` | Caractere | -- | -- |
-| **Senha Criptografada** | `senha` | `VARCHAR(255)` | Hash seguro da senha gerado via `password_hash()` | -- | `NOT NULL` | Caractere | -- | -- |
+| **E-mail de Acesso** | `email` | `VARCHAR(100)` | Endereço de e-mail único do usuário para login | UK | `NOT NULL` | Caractere | -- | -- |
+| **Senha Criptografada** | `senha` | `VARCHAR(255)` | Hash da senha gerado via `password_hash()` | -- | `NOT NULL` | Caractere | -- | -- |
 
 ---
 
@@ -430,7 +430,7 @@ O dicionário de dados descreve o significado dos campos, seus tipos conceituais
 | **Destino** | `destino` | `VARCHAR(150)` | Cidade, país ou local visitado | -- | `NOT NULL` | Caractere | -- | -- |
 | **Data de Início** | `data_inicio` | `DATE` | Data de início da viagem | -- | `NOT NULL` | Data | `DD/MM/AAAA` | -- |
 | **Data de Término** | `data_fim` | `DATE` | Data de encerramento da viagem | -- | `NOT NULL` | Data | `DD/MM/AAAA` | -- |
-| **Relato da Viagem** | `relato` | `TEXT` | Texto detalhado da experiência e história da viagem | -- | `NOT NULL` | Texto longo | -- | -- |
+| **Relato da Viagem** | `relato` | `TEXT` | Texto da experiência e história da viagem | -- | `NOT NULL` | Texto longo | -- | -- |
 | **Avaliação** | `avaliacao` | `INT` | Nota/pontuação de 1 a 5 dada à viagem | -- | `NULL` | Número inteiro | -- | -- |
 
 ---
