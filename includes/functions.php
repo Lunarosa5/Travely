@@ -154,7 +154,7 @@ function relatorio($conexao)
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':id_usuario', $id_usuario);
         $stmt->execute();
-        
+
         // Retorna o array associativo com todas as viagens encontradas
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {

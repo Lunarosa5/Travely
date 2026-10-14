@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travely</title>
-    <link rel="stylesheet" href="/diario_viagens/css/style.css">
+    <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 
 <body class="fundo">
@@ -22,8 +22,8 @@
             <div class="botoes">
 
                 <!-- Links para a telade login e tela de cadastro -->
-                <a href="/diario_viagens/login/login.php" class="login">Login</a>
-                <a href="/diario_viagens/login/cadastro.php" class="cadastro">Cadastre-se</a>
+                <a href="/travely/login/login.php" class="login">Login</a>
+                <a href="/travely/login/cadastro.php" class="cadastro">Cadastre-se</a>
             </div>
 
         </div>
