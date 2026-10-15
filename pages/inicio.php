@@ -21,12 +21,8 @@ $ultimas_viagens = ultimas_viagens($conexao, $id_usuario);
 if ($dados['media_notas']) {
     $media_notas = number_format($dados['media_notas'], 1);
 } else {
-    $media_notas = '0';
-}
-?>
-
-
-<!DOCTYPE html>
+    $media_notas = '0'; }
+?><!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
