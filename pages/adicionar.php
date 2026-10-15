@@ -10,16 +10,15 @@ require_once __DIR__ . '/../database/connect.php';
 
 // Guarda a data atual no formato ano-mês-dia (por exemplo 2026-10-21).
 $hoje = date('Y-m-d');
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Nova Viagem - Travely</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Correção do caminho do CSS para o padrão absoluto do projeto -->
+    <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 
 <body class="fundo-dashboard">
@@ -75,7 +74,8 @@ $hoje = date('Y-m-d');
                     );
 
                     if ($id_viagem_criada) {
-                        if (isset($_FILES['imagem'])) {
+                        // Verifica se algum arquivo foi enviado de fato antes de chamar a função
+                        if (isset($_FILES['imagem']) && !empty($_FILES['imagem']['name'][0])) {
                             foto_viagem($conexao, $id_viagem_criada, $_FILES['imagem']);
                         }
 
@@ -136,5 +136,4 @@ $hoje = date('Y-m-d');
 
     </div>
 </body>
-
 </html>

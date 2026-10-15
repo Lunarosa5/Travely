@@ -11,16 +11,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['acao']) && $_POST['aca
 
 // Busca os dados do usuário para preencher a tela
 $usuario = buscar_usuario($conexao, $_SESSION['id_usuario']);
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil - Travely</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Correção do caminho do CSS para o padrão absoluto do projeto -->
+    <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 
 <body class="fundo-dashboard">

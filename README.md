@@ -3,8 +3,8 @@
 **Sistema:** Travelly — Diário de Viagens  
 **Tipo de documento:** Especificação de Requisitos de Software (SRS/ERS)  
 **Referência de estrutura:** ISO/IEC/IEEE 29148:2018  
-**Versão:** 1.3
-**Data:** Outubro de 2026  
+**Versão:** 1.4
+**Data:** Setembro/Outubro de 2026  
 **Curso:** Técnico em Desenvolvimento de Sistemas — SENAI  
 **Tecnologias utilizadas:** PHP, PostgreSQL, HTML e CSS
 
@@ -521,13 +521,101 @@ https://github.com/Lunarosa5/diario_viagens.git
 ```
 - Abra o Terminal, Prompt de Comando ou Git Bash no seu computador e navegue até a pasta onde deseja salvar o projeto:
 ```bash
-cd pasta_desejada
+cd caminho/pasta_desejada
 ```
 
 - Execute o git clone:
 ```bash
 git clone https://github.com/Lunarosa5/diario_viagens.git
 ```
+
+- Acesse a pasta:
+```bash
+cd travely
+```
+
+#### Passo 2: Configurar o Banco de Dados
+Juntamente aos arquivos do projeto, você tem acesso ao dump do banco de dados `travely.sql`, você usará ele neste momento. Siga as instruções abaixo:
+
+- Abra o Terminal, Prompt de Comando ou PowerShell.
+- Conecte-se ao PostgreSQL de acordo com seu sistema operacional:
+
+    - Linux/macOS (Terminal):
+    ```bash
+    sudo -u postgres psql
+    ```
+
+    - Windows (Prompt/PowerShell):
+    ```bash
+    psql -U postgres
+    ```
+
+- Crie o banco de dados travely:
+```bash
+CREATE DATABASE travely;
+```
+
+- Crie o usuário travely com senha:
+```bash
+CREATE USER travely WITH PASSWORD '12345';
+```
+
+- Altere proprietário do database:
+```bash
+ALTER DATABASE nomeBD OWNER TO usuario;
+```
+
+- Verifique se tudo ocorreu bem (banco de dados e usuário criados)
+    - Verificação do banco de dados:
+```bash
+\l
+```
+
+    - Verificação dos usuários:
+```bash
+\du # Lista básica
+
+ ou
+
+\du+ # Lista detalhada
+```
+- Saia do usuário postgres:
+```bash
+\q
+```
+
+- Estando na raiz do projeto `(pasta travely)`, restaure o banco de dados executando o seguinte comando:
+```bash
+psql -U travely -d travely -f travely.sql
+```
+
+#### Passo 3: Configurar a conexão ao banco de dados
+- Na raiz do projeto, abra o arquivo `config.php`.
+- Ajuste as informações de acordo com sua configuração local do PostgreSQL, no caso, altere apenas o endereço de IP.
+```bash
+# EXEMPLO:
+
+define('DB_HOST', 'localhost'); // Endereço IP do servidor PostgreSQL - exemplo: no local de 'localhost' insira '192.168.1.1' (seu endereço de IP).
+
+define('DB_PORT', '5432'); // NÃO ALTERE. Porta padrão do PostgreSQL
+
+define('DB_NAME', 'travely'); // NÃO ALTERE. Nome do banco de dados
+
+define('DB_USER', 'travely'); // NÃO ALTERE. Nome de usuário do banco de dados
+
+define('DB_PASS', '12345'); // NÃO ALTERE. Senha do banco de dados
+?>
+```
+
+#### Passo 4: Acessar a Aplicação
+- Após configurar o banco de dados e a conexão, inicialize o servidor. Com o seu terminal aberto na pasta raiz do projeto, execute o comando abaixo:
+```bash
+php -S 0.0.0.0:8000
+```
+- Deste modo, o projeto estará acessível no seu navegador através do endereço `http://localhost:8000`.
+- Agora você está pronto para explorar a aplicação!
+
+---
 
 # 10. Controle de Versões
 
@@ -536,7 +624,8 @@ git clone https://github.com/Lunarosa5/diario_viagens.git
 | **1.0** | 25/09/2026 | Criação inicial do documento, levantamento dos itens do Product Backlog e elaboração do banco de dados (DER). | Luna |
 | **1.1** | 30/09/2026 | Definição detalhada dos Requisitos Funcionais (RFs), Requisitos Não Funcionais (RNFs) e Regras de Negócio (RNs). | Luna |
 | **1.2** | 02/10/2026 | Atualização do DER do banco e criação do Dicionário de Dados detalhado. | Luna |
-| **1.3** | 19/10/2026 | Adição da estrutura de diretórios do projeto e elaboração do mapa de navegação das telas. | Luna |
+| **1.3** | 09/10/2026 | Adição da estrutura de diretórios do projeto e elaboração do mapa de navegação das telas. | Luna |
+**1.4** | 14/10/2026 | Finalização da elaboração da seção de Execução do Projeto. | Luna |
 
 ---
 

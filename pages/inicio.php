@@ -1,10 +1,12 @@
 <?php
+
 // inicio.php: página inicial
 
 // inicia a sessão do usuário
 session_start();
 
 // Carrega arquivo de conexão com o banco de dados e o arquivo de funções
+require_once __DIR__ . '/../database/connect.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../login/verifica_user.php';
 
@@ -21,7 +23,8 @@ $ultimas_viagens = ultimas_viagens($conexao, $id_usuario);
 if ($dados['media_notas']) {
     $media_notas = number_format($dados['media_notas'], 1);
 } else {
-    $media_notas = '0'; }
+    $media_notas = '0';
+}
 ?><!DOCTYPE html>
 <html lang="pt-br">
 
@@ -29,7 +32,8 @@ if ($dados['media_notas']) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Início - Travely</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Correção do caminho do CSS (removido o /../ do início para caminhos absolutos a partir da raiz) -->
+    <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 
 <body class="fundo-dashboard">
@@ -108,7 +112,7 @@ if ($dados['media_notas']) {
                                     <p>Data: <?php echo date('d/m/Y', strtotime($viagem['data_inicio'])); ?></p>
 
                         <!-- Pega o valor armazenado na coluna avaliacao daquela viagem e mostra ela. -->
-                                    <p>Nota: <?php echo ($viagem['avaliacao']); ?><</p>
+                                    <p>Nota: <?php echo ($viagem['avaliacao']); ?></p>
 
                         <!-- Link para abrir a página detalhes_viagem.php onde será mostrado mais detalhes da viagem selecionada. -->
                                     <a href="detalhes_viagem.php?id=<?= $viagem['id']; ?>&origem=inicio" class="btn-ver-mais">Ver mais</a>

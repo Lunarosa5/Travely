@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mensagem = ob_get_clean(); // Guarda a mensagem gerada
 
     // Se selecionou foto nova, cadastra no banco
-    if (isset($_FILES['imagem'])) {
+    if (isset($_FILES['imagem']) && !empty($_FILES['imagem']['name'][0])) {
         foto_viagem($conexao, $id_viagem, $_FILES['imagem']);
     }
 }
@@ -50,16 +50,15 @@ if (!$viagem) {
     header("Location: atualizar.php");
     exit();
 }
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Viagem - Travely</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Correção do caminho do CSS para o padrão absoluto do projeto -->
+    <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 
 <body class="fundo-dashboard">

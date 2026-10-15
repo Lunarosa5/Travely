@@ -45,16 +45,15 @@ if (!empty($fotos)) {
 }
 
 $total_fotos = count($lista_fotos);
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo ($viagem['titulo']); ?> - Travely</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Correção do caminho do CSS para o padrão absoluto do projeto -->
+    <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 
 <body class="fundo-dashboard">
