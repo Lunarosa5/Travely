@@ -140,7 +140,7 @@ Os requisitos são identificados como `RF-XXX` e `RNF-XXX`. A prioridade está c
 
 **Critérios de aceitação:**
 - O acesso às funções internas do sistema é permitido apenas para usuários que fizeram login;
-- O código da aplicação deve sempre checar se o usuário está logado antes de carregar qualquer página privada (via `verifica_user.php`).
+- O código da aplicação deve sempre checar se o usuário está logado antes de carregar qualquer página privada (via verifica_user.php).
 - Uma tentativa de acesso não autorizado deve ser bloqueada e redirecionada para a página inicial (index.php).
 
 #### RF-005 — Logout
@@ -158,14 +158,18 @@ Os requisitos são identificados como `RF-XXX` e `RNF-XXX`. A prioridade está c
 
 #### RF-006 — Cadastrar viagem
 **Prioridade:** Alta  
-**Descrição:** o sistema deve permitir que o usuário autenticado crie um novo relato de viagem com fotos.
+**Descrição:** o sistema deve permitir que o usuário autenticado crie um novo relato de viagem.
 
 **Critérios de aceitação:**
 - Disponibilizar formulário completo para preenchimento dos dados da viagem (destino, datas, relato, nota de 0 a 5 e fotos (opcional);
 - Validar o campo destino para permitir somente letras e espaços;
+- Validar as datas informadas para impedir que a data de término (data_fim) seja anterior à data de início (data_inicio);
+- Validar as datas inseridas para impedir que o início ou o fim da viagem sejam definidos em uma data futura (maior que a data atual);
+- Permitir o anexo de no máximo 10 fotos por viagem no momento do cadastro;
 - Definir uma imagem padrão (sem_imagem.png) quando o usuário não anexar nenhuma foto;
 - Salvar as informações no banco de dados (PostgreSQL) associadas ao usuário autenticado;
 - Exibir mensagem de retorno confirmando o sucesso ou a falha da ação.
+
 
 #### RF-007 — Listar viagens
 **Prioridade:** Alta  
@@ -183,7 +187,7 @@ Os requisitos são identificados como `RF-XXX` e `RNF-XXX`. A prioridade está c
 
 **Critérios de aceitação:**
 - Exibir todos os dados do relato (título, destino, relato completo, nota, datas e fotos);
-- O botão "Voltar" da tela de detalhes deve retornar o usuário para a página exata de onde veio (`inicio`, `viagens`, `pesquisar` ou `atualizar`);
+- O botão "Voltar" da tela de detalhes deve retornar o usuário para a página exata de onde veio (inicio, viagens, pesquisar ou atualizar);
 - Validar no banco de dados se a viagem pertence ao usuário ativo na sessão antes de carregar o conteúdo.
 
 #### RF-009 — Pesquisar viagens
@@ -203,8 +207,11 @@ Os requisitos são identificados como `RF-XXX` e `RNF-XXX`. A prioridade está c
 - Ao abrir a tela de edição, os dados antigos da viagem já devem vir preenchidos nos campos;
 - As novas informações digitadas devem ser checadas pelo sistema antes de salvar;
 - Se a pessoa enviar novas fotos, elas devem ser adicionadas à viagem sem ultrapassar o limite total de 10 fotos;
+- Validar as novas datas inseridas para impedir que o início ou o fim da viagem sejam definidos em uma data futura (maior que a data atual);
 - Apenas o dono da viagem pode alterar as informações;
 - As alterações devem ser salvas no banco de dados e atualizadas na tela na mesma hora.
+- Validar as datas informadas para impedir que a data de término (data_fim) seja anterior à data de início (data_inicio);
+
 
 #### RF-011 — Excluir viagem
 **Prioridade:** Alta  
@@ -289,25 +296,38 @@ As regras de negócio definem as restrições, validações e comportamentos que
 
 ### RN-002 — Criptografia de Senha
 * **Descrição:** Nenhuma senha pode ser salva em texto normal no banco de dados.
-* **Comportamento:** Todas as senhas devem ser criptografadas utilizando a função `password_hash()` do PHP antes de serem salvas na coluna `senha` da tabela `usuarios`. A verificação no login deve utilizar `password_verify()`.
+* **Comportamento:** Todas as senhas devem ser criptografadas utilizando a função password_hash() do PHP antes de serem salvas na coluna senha da tabela usuarios. Para a verificação de login, deverá ser utilizado password_verify().
 
 ### RN-003 — Isolamento e Propriedade dos Dados
 * **Descrição:** O usuário só tem permissão para visualizar, editar ou excluir as suas próprias viagens e fotos.
-* **Comportamento:** Todas as consultas no banco de dados (`SELECT`, `UPDATE`, `DELETE`) em registros de viagem devem filtrar obrigatoriamente pelo `id_usuario` armazenado na sessão ativa (`$_SESSION`). Tentativas de acessar IDs de viagens pertencentes a outros usuários devem ser bloqueadas.
+* **Comportamento:** Todas as consultas no banco de dados (SELECT, UPDATE, DELETE) em registros de viagem devem filtrar obrigatoriamente pelo id_usuario armazenado na sessão ativa ($_SESSION). Tentativas de acessar IDs de viagens pertencentes a outros usuários devem ser bloqueadas.
 
 ### RN-004 — Exclusão em Cascata
-* **Descrição:** A remoção de um registro pai deve excluir automaticamente todos os registros filhos associados no banco de dados (`ON DELETE CASCADE`).
+* **Descrição:** Quando um dado principal for apagado, todos os outros dados que dependem dele devem ser deletados automaticamente pelo sistema.
 * **Comportamento:**
-  * Se um usuário excluir sua conta (`usuarios`), o PostgreSQL remove automaticamente todas as suas viagens (`viagens`) e fotos (`fotos_viagem`).
-  * Se uma viagem for excluída (`viagens`), todas as referências de suas fotos (`fotos_viagem`) são removidas no banco e os arquivos correspondentes na pasta `/uploads` devem ser apagados.
+  * Se um usuário excluir sua conta (usuarios), o PostgreSQL remove automaticamente todas as suas viagens (viagens) e fotos (fotos_viagem).
+  * Se uma viagem for excluída (viagens), todas as referências de suas fotos (fotos_viagem) são removidas no banco e os arquivos correspondentes na pasta /uploads devem ser apagados.
 
 ### RN-005 — Anexo Opcional e Padrão de Imagens
 * **Descrição:** O cadastro de fotos para uma viagem é opcional.
-* **Comportamento:** Caso o usuário cadastre uma viagem sem enviar imagens, o sistema não cria registros na tabela `fotos_viagem` e exibe uma imagem padrão pré-definida (`sem_imagem.png`).
+* **Comportamento:** Caso o usuário cadastre uma viagem sem enviar imagens, o sistema não cria registros na tabela fotos_viagem e exibe uma imagem padrão pré-definida ja salva no sistema (sem_imagem.png).
 
 ### RN-006 — Tratamento Único de Arquivos de Mídia
-* **Descrição:** Nenhuma imagem enviada para a pasta `/uploads` pode sobrescrever um arquivo já existente.
-* **Comportamento:** Ao receber uma foto no formulário de viagem, o PHP deve renomear o arquivo gerando um nome exclusivo antes de salvar e registrar no banco de dados.
+* **Descrição:** Nenhuma imagem enviada para a pasta /uploads pode sobrescrever um arquivo já existente.
+* **Comportamento:** Ao receber uma foto no formulário de viagem, o PHP deve renomear o arquivo gerando um nome único antes de salvar e registrar no banco de dados.
+
+### RN-007 — Limite de Quantidade de Mídias
+* **Descrição:** Uma viagem não pode conter mais do que 10 fotos armazenadas.
+* **Comportamento:** O sistema deve validar se a quantidade de arquivos enviados ultrapassa o limite de 10 imagens. Caso o limite seja excedido, a operação deve ser inválida e apresentar uma mensagem de erro para o usuário.
+
+### RN-008 — Validação Cronológica de Viagens
+* **Descrição:** O período de uma viagem deve ser válido logicamente.
+* **Comportamento:** O backend deve validar se o valor do campo data_fim é maior ou igual ao valor do campo data_inicio. Caso o usuário inserir uma data de fim inválida (ex: começar dia 15 e terminar dia 10), o sistema deve recusar o salvamento e mostrar um aviso de erro na tela.
+
+### RN-009 — Bloqueio de Viagens no Futuro
+* **Descrição:** O sistema deve aceitar apenas relatos de viagens que já aconteceram.
+* **Comportamento:** O código deve verificar a data atual do servidor no momento do cadastro ou edição. Os campos data_inicio e data_fim não podem ser maiores do que a data atual. Caso o usuário tente registrar uma data futura, o sistema deve impedir o salvamento e exibir uma mensagem de erro na tela.
+
 
 ---
 # 5. Estrutura do projeto
@@ -366,17 +386,17 @@ erDiagram
     VIAGENS ||--o{ FOTOS_VIAGEM : "possui"
 
     USUARIOS {
-        int id "UNIQUE AUTOINCREMENT"
-        varchar nome "NOT NULL"
-        varchar email "NOT NULL"
-        varchar senha "NOT NULL"
+        int id PK "UNIQUE AUTOINCREMENT"
+        varchar(100) nome "NOT NULL"
+        varchar(100) email "NOT NULL"
+        varchar(255) senha "NOT NULL"
     }
 
     VIAGENS {
         int id PK "UNIQUE AUTOINCREMENT"
         int id_usuario FK "NOT NULL"
-        varchar titulo "NOT NULL"
-        varchar destino "NOT NULL"
+        varchar(150) titulo "NOT NULL"
+        varchar(150) destino "NOT NULL"
         date data_inicio "NOT NULL"
         date data_fim "NOT NULL"
         text relato "NOT NULL"
@@ -386,7 +406,7 @@ erDiagram
     FOTOS_VIAGEM {
         int id PK "UNIQUE AUTOINCREMENT"
         int id_viagem FK "NOT NULL"
-        varchar nome_arquivo "NOT NULL"
+        varchar(255) nome_arquivo "NOT NULL"
     }
 ```
  
@@ -399,8 +419,6 @@ erDiagram
 - FK (Chave Estrangeira): Campo que faz a ponte entre tabelas (id_usuario em viagens e id_viagem em fotos_viagem).
 - UNIQUE AUTOINCREMENT: Faz o banco gerar o ID automaticamente em sequência (1, 2, 3...) e garante que esse número nunca se repita.
 - NOT NULL: Campo obrigatório que não pode ser deixado em branco.
-- NULL: Campo opcional (como a avaliacao da viagem). 
-
 
 ## 6.2. Dicionário de Dados
 
@@ -413,10 +431,10 @@ O dicionário de dados descreve o significado dos campos, seus tipos conceituais
 
 | Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
-| **ID do Usuário** | `id` | `INT` | Identificador único do usuário | PK | `NOT NULL` | Número inteiro | -- | -- |
-| **Nome Completo** | `nome` | `VARCHAR(100)` | Nome completo informado pelo usuário no cadastro | -- | `NOT NULL` | Caractere | -- | -- |
-| **E-mail de Acesso** | `email` | `VARCHAR(100)` | Endereço de e-mail único do usuário para login | UK | `NOT NULL` | Caractere | -- | -- |
-| **Senha Criptografada** | `senha` | `VARCHAR(255)` | Hash da senha gerado via `password_hash()` | -- | `NOT NULL` | Caractere | -- | -- |
+| **ID do Usuário** | id | INT | Identificador único do usuário | PK | NOT NULL | Número inteiro | -- | -- |
+| **Nome Completo** | nome | VARCHAR(100) | Nome completo informado pelo usuário no cadastro | -- | NOT NULL | Caractere | -- | -- |
+| **E-mail de Acesso** | email | VARCHAR(100) | Endereço de e-mail único do usuário para login | -- | NOT NULL | Caractere | -- | -- |
+| **Senha Criptografada** | senha | VARCHAR(255) | Hash da senha gerado via password_hash() | -- | NOT NULL | Caractere | -- | -- |
 
 ---
 
@@ -424,14 +442,14 @@ O dicionário de dados descreve o significado dos campos, seus tipos conceituais
 
 | Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
-| **ID da Viagem** | `id` | `INT` | Identificador único do registro da viagem | PK | `NOT NULL` | Número inteiro | -- | `viagens.id` |
-| **ID do Usuário** | `id_usuario` | `INT` | Identificador do usuário dono da viagem | FK | `NOT NULL` | Número inteiro | -- | `usuarios.id` |
-| **Título da Viagem** | `titulo` | `VARCHAR(150)` | Título da viagem | -- | `NOT NULL` | Caractere | -- | -- |
-| **Destino** | `destino` | `VARCHAR(150)` | Cidade, país ou local visitado | -- | `NOT NULL` | Caractere | -- | -- |
-| **Data de Início** | `data_inicio` | `DATE` | Data de início da viagem | -- | `NOT NULL` | Data | `DD/MM/AAAA` | -- |
-| **Data de Término** | `data_fim` | `DATE` | Data de encerramento da viagem | -- | `NOT NULL` | Data | `DD/MM/AAAA` | -- |
-| **Relato da Viagem** | `relato` | `TEXT` | Texto da experiência e história da viagem | -- | `NOT NULL` | Texto longo | -- | -- |
-| **Avaliação** | `avaliacao` | `INT` | Nota/pontuação de 1 a 5 dada à viagem | -- | `NULL` | Número inteiro | -- | -- |
+| **ID da Viagem** | id | INT | Identificador único do registro da viagem | PK | NOT NULL | Número inteiro | -- | -- |
+| **ID do Usuário** | id_usuario | INT | Identificador do usuário dono da viagem | FK | NOT NULL | Número inteiro | -- | usuarios |
+| **Título da Viagem** | titulo | VARCHAR(150) | Título da viagem | -- | NOT NULL | Caractere | -- | -- |
+| **Destino** | destino | VARCHAR(150) | Cidade, país ou local visitado | -- | NOT NULL | Caractere | -- | -- |
+| **Data de Início** | data_inicio | DATE | Data de início da viagem | -- | NOT NULL | Data | DD/MM/AAAA | -- |
+| **Data de Término** | data_fim | DATE | Data de encerramento da viagem | -- | NOT NULL | Data | DD/MM/AAAA | -- |
+| **Relato da Viagem** | relato | TEXT | Texto da experiência e história da viagem | -- | NOT NULL | Texto longo | -- | -- |
+| **Avaliação** | avaliacao | INT | Nota/pontuação de 1 a 5 dada à viagem | -- | NOT NULL | Número inteiro | -- | -- |
 
 ---
 
@@ -439,9 +457,9 @@ O dicionário de dados descreve o significado dos campos, seus tipos conceituais
 
 | Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
-| **ID da Foto** | `id` | `INT` | Identificador único da imagem | PK | `NOT NULL` | Número inteiro | -- | `fotos_viagem.id` |
-| **ID da Viagem** | `id_viagem` | `INT` | Identificador da viagem à qual a foto pertence | FK | `NOT NULL` | Número inteiro | -- | `viagens.id` |
-| **Nome do Arquivo** | `nome_arquivo` | `VARCHAR(255)` | Nome único do arquivo gerado e salvo na pasta `/uploads` | -- | `NOT NULL` | Caractere | -- | -- |
+| **ID da Foto** | id | INT | Identificador único da imagem | PK | NOT NULL | Número inteiro | -- | -- |
+| **ID da Viagem** | id_viagem | INT | Identificador da viagem à qual a foto pertence | FK | NOT NULL | Número inteiro | -- | viagens |
+| **Nome do Arquivo** | nome_arquivo | VARCHAR(255) | Nome único do arquivo gerado e salvo na pasta /uploads | -- | NOT NULL | Caractere | -- | -- |
 
 # 7. Ciclo de navegação e execução
 
@@ -497,7 +515,7 @@ A tabela abaixo reúne as funcionalidades descritas para o projeto e melhorias r
 | PB-013 | Validação de Dados | Checa os campos antes de salvar e mostra mensagens claras em caso de erro. | Alta |
 | PB-015 | Permissão de Acesso | Garante que o usuário só consiga ver, editar ou apagar as suas próprias viagens. | Alta |
 | PB-016 | Documentação do Projeto | Fornece as informações do projeto, como instruções de instalação, organização das pastas, product backlog e outros. | Alta |
-| PB-017 | Anexo de Fotos | Permite enviar fotos para acompanhar os relatos das viagens. | Baixa |
+| PB-017 | Anexo de Fotos | Permite enviar fotos para acompanhar os relatos das viagens tanto no cadastro quanto na edição. | Alta |
 | PB-018 | Recuperar Senha | Permite redefinir a senha caso o usuário a esqueça (melhoria futura). | Média |
 | PB-019 | Compartilhar Viagens | Permite mostrar fotos e relatos para outros usuários (melhoria futura). | Baixa |
 
@@ -526,7 +544,7 @@ cd caminho/pasta_desejada
 
 - Execute o git clone:
 ```bash
-git clone https://github.com/Lunarosa5/diario_viagens.git
+git https://github.com/Lunarosa5/Travely.git
 ```
 
 - Acesse a pasta:
@@ -562,7 +580,7 @@ CREATE USER travely WITH PASSWORD '12345';
 
 - Altere proprietário do database:
 ```bash
-ALTER DATABASE nomeBD OWNER TO usuario;
+ALTER DATABASE travely OWNER TO travely;
 ```
 
 - Verifique se tudo ocorreu bem (banco de dados e usuário criados)
@@ -625,7 +643,7 @@ php -S 0.0.0.0:8000
 | **1.1** | 30/09/2026 | Definição detalhada dos Requisitos Funcionais (RFs), Requisitos Não Funcionais (RNFs) e Regras de Negócio (RNs). | Luna |
 | **1.2** | 02/10/2026 | Atualização do DER do banco e criação do Dicionário de Dados detalhado. | Luna |
 | **1.3** | 09/10/2026 | Adição da estrutura de diretórios do projeto e elaboração do mapa de navegação das telas. | Luna |
-**1.4** | 14/10/2026 | Finalização da elaboração da seção de Execução do Projeto. | Luna |
+| **1.4** | 14/10/2026 | Finalização da elaboração da seção de Execução do Projeto. | Luna |
 
 ---
 
