@@ -1,6 +1,6 @@
-# Travelly — Documentação (SRS/ERS)
+# Travely — Documentação (SRS/ERS)
 
-**Sistema:** Travelly — Diário de Viagens  
+**Sistema:** Travely — Diário de Viagens  
 **Tipo de documento:** Especificação de Requisitos de Software (SRS/ERS)  
 **Referência de estrutura:** ISO/IEC/IEEE 29148:2018  
 **Versão:** 1.4
@@ -14,7 +14,7 @@
 
 ## 1.1. Propósito
 
-Este documento especifica os requisitos funcionais e não funcionais do Travelly, uma aplicação web desenvolvida para funcionar como um diário digital de viagens. O documento descreve as funcionalidades esperadas, as regras de negócio, os dados utilizados, os fluxos de navegação e os critérios que podem ser empregados na verificação do sistema.
+Este documento especifica os requisitos funcionais e não funcionais do Travely, uma aplicação web desenvolvida para funcionar como um diário digital de viagens. O documento descreve as funcionalidades esperadas, as regras de negócio, os dados utilizados, entre outros
 
 A especificação tem como objetivos:
 
@@ -26,7 +26,7 @@ A especificação tem como objetivos:
 
 ## 1.2. Escopo do produto
 
-O Travelly permite que pessoas interessadas em viagens criem uma conta, façam login e mantenham registros pessoais de suas experiências. Após a autenticação, o usuário pode administrar suas viagens ao cadastrar novos registros, visualizar relatos já cadastrados, pesquisar viagens, atualizar informações e excluir registros.
+O Travely permite que pessoas interessadas em viagens criem uma conta, façam login e mantenham registros pessoais de suas experiências. Após a autenticação, o usuário pode administrar suas viagens ao cadastrar novos registros, visualizar relatos já cadastrados, pesquisar viagens, atualizar informações e excluir registros.
 
 O sistema também possui gerenciamento de perfil. O usuário pode consultar e atualizar suas informações e solicitar a exclusão da própria conta. A sessão pode ser encerrada por meio da opção de logout.
 
@@ -34,7 +34,7 @@ O sistema também possui gerenciamento de perfil. O usuário pode consultar e at
 
 Experiências de viagem podem ficar registradas em diferentes lugares, como anotações, arquivos e aplicativos. Quando esses registros ficam dispersos, pode ser mais difícil consultar informações de viagens anteriores e manter um histórico organizado.
 
-O Travelly, então, propõe reunir esses registros em uma plataforma web, permitindo que cada usuário mantenha um histórico próprio e possa recuperar ou modificar suas informações quando necessário.
+O Travely, então, propõe reunir esses registros em uma plataforma web, permitindo que cada usuário mantenha um histórico próprio e possa recuperar ou modificar suas informações quando necessário.
 
 ## 1.4. Definições e acrônimos
 
@@ -53,7 +53,7 @@ O Travelly, então, propõe reunir esses registros em uma plataforma web, permit
 
 ## 2.1. Perspectiva do produto
 
-O Travelly é uma aplicação web conectada a um banco de dados PostgreSQL. A interface permite que o usuário interaja com o sistema por meio de páginas e formulários. O PHP processa as requisições, aplica validações e regras de negócio, e realiza as operações no banco de dados.
+O Travely é uma aplicação web conectada a um banco de dados PostgreSQL. A interface permite que o usuário interaja com o sistema por meio de páginas e formulários. O PHP processa as requisições, aplica validações e regras de negócio, e realiza as operações no banco de dados.
 
 Visão simplificada da arquitetura:
 ```mermaid
