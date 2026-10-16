@@ -14,7 +14,7 @@ function cadastrar_user($conexao, $nome, $email, $senha)
     // Gera um hash da senha com BCRYPT (ferramenta para criar e verificar hashes de senhas), para que a senha original não seja armazenada no banco de dados, aumentando a segurança do sistema.
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
-    //  " Cria a consulta que será preenchida com o novo usuário no banco de dados. Também foi usado o RETURNING id para obter o ID gerado no INSERT
+    // Cria a consulta que será preenchida com o novo usuário no banco de dados. Também foi usado o RETURNING id para obter o ID gerado no INSERT
     $sql = "INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha) RETURNING id";
 
     // Tenta executar a query e trata possíveis erros
@@ -49,8 +49,9 @@ function cadastrar_user($conexao, $nome, $email, $senha)
     }
 }
 
-// consulta_user: Busca os dados de um usuário pelo e-mail para validar o login
+// consulta_user: Busca os dados de um usuário pelo e-mail e retornar suas informações.
 
+// cria a função consulta_user que recebe a conexão com o banco e o e-mail do usuário que queremos encontrar.
 function consulta_user($conexao, $email)
 {
     $sql = "SELECT id, nome, email, senha FROM usuarios WHERE email = :email";

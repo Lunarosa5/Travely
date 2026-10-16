@@ -98,7 +98,7 @@ require_once __DIR__ . '/../login/verifica_user.php';
                                     <!-- Campo oculto que envia o ID da viagem selecionada para identificar qual registro deverá ser excluído. -->
                                     <form action="" method="POST" onsubmit="return confirm('Tem certeza que deseja apagar este relato?');">
 
-                                        <!-- Por ser uma função do JavaScript, a parte de confirmação da exclusão, campos escondidos são criados que enviam informações essenciais para o PHP para realizar a exclusão -->
+                                        <!-- Por ser uma função do JavaScript, a parte de confirmação da exclusão (onsubmit), campos escondidos são criados que enviam informações essenciais para o PHP para realizar a exclusão -->
 
                                         <!-- Campo invisível que envia o ID da viagem para o PHP saber exatamente qual registro apagar, por exemplo, ID = 12, ou seja, apagar viagem para São Paulo -->
                                         <input type="hidden" name="id_viagem" value="<?= $viagem['id']; ?>">

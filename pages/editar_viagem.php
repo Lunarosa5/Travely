@@ -1,12 +1,22 @@
 <?php
+// editar_viagem: responsável por editar os dados de uma viagem já cadastrada no sistema.
+
+// A sessão é iniciada
 session_start();
+
+// Carrega os arquivos que serão usados para o funcionamento da página
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../login/verifica_user.php';
 require_once __DIR__ . '/../database/connect.php';
 
+// Guarda o ID do usuário que está conectado
 $id_usuario = $_SESSION['id_usuario'];
+
+// Pega a data atual no formato ano-mês-dia e armazena em $hoje
 $hoje = date('Y-m-d');
-$mensagem = ''; // Variável para guardar a mensagem de sucesso/erro
+
+// Variável para guardar a mensagem de sucesso/erro
+$mensagem = '';
 
 // Pega o ID da viagem via URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {
