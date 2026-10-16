@@ -32,7 +32,6 @@ if ($dados['media_notas']) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Início - Travely</title>
-    <!-- Correção do caminho do CSS (removido o /../ do início para caminhos absolutos a partir da raiz) -->
     <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 

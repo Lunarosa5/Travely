@@ -18,7 +18,6 @@ $usuario = buscar_usuario($conexao, $_SESSION['id_usuario']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil - Travely</title>
-    <!-- Correção do caminho do CSS para o padrão absoluto do projeto -->
     <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 

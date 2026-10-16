@@ -14,7 +14,6 @@ require_once __DIR__ . '/../includes/functions.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faça seu cadastro - Travely</title>
-    <!-- Correção do caminho do CSS para o padrão absoluto do projeto -->
     <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 

@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../login/verifica_user.php'; 
@@ -12,7 +13,6 @@ $viagens = relatorio($conexao);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minhas viagens - Travely</title>
-    <!-- Correção do caminho do CSS para o padrão absoluto do projeto -->
     <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 <body class="fundo-dashboard">

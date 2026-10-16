@@ -49,7 +49,7 @@ $hoje = date('Y-m-d');
                 // Cria um loop que percorre cada arquivo enviado e a cada repetição que acontece, o nome do arquivo é guardado na variável $nome.
                     foreach ($_FILES['imagem']['name'] as $nome) {
 
-                    // Se $nome nõ esta vazio, a cada arquivo somará +1 no contador.
+                    // Se $nome não esta vazio, a cada arquivo somará +1 no contador.
                         if (!empty($nome)) {
                             $total_fotos++;
                         }
@@ -89,13 +89,13 @@ $hoje = date('Y-m-d');
             <div class="card-formulario">
                 <form action="" method="post" enctype="multipart/form-data" class="form-viagem">
 
-                    <!-- Campo Destino (Largura Total) -->
+                    <!-- Campo Destino -->
                     <div class="campo-form largura-total">
                         <label for="destino">Adicione o destino:</label>
                         <input type="text" name="destino" id="destino" value="<?= ($_POST['destino'] ?? ''); ?>" required>
                     </div>
 
-                    <!-- Datas Lado a Lado -->
+                    <!-- Datas -->
                     <div class="campo-form metade">
                         <label for="data_inicio">Data de inicio da viagem:</label>
                         <input type="date" name="data_inicio" id="data_inicio" max="<?= $hoje; ?>" value="<?= ($_POST['data_inicio'] ?? ''); ?>" required>
@@ -106,13 +106,13 @@ $hoje = date('Y-m-d');
                         <input type="date" name="data_fim" id="data_fim" max="<?= $hoje; ?>" value="<?= ($_POST['data_fim'] ?? ''); ?>" required>
                     </div>
 
-                    <!-- Descrição (Largura Total) -->
+                    <!-- Descrição -->
                     <div class="campo-form largura-total">
                         <label for="relato">Descreva-a:</label>
                         <textarea name="relato" id="relato" rows="3" required><?= ($_POST['relato'] ?? ''); ?></textarea>
                     </div>
 
-                    <!-- Foto e Nota Lado a Lado -->
+                    <!-- Foto e Nota -->
                     <div class="campo-form metade">
                         <label for="imagem">Adicione uma foto da viagem:</label>
                         <input type="file" name="imagem[]" id="imagem" accept="image/*" multiple>
@@ -123,7 +123,7 @@ $hoje = date('Y-m-d');
                         <input type="number" name="avaliacao" id="avaliacao" min="0" max="5" value="<?= ($_POST['avaliacao'] ?? ''); ?>" required>
                     </div>
 
-                    <!-- Botões de Ação Centralizados -->
+                    <!-- Botões de Ação -->
                     <div class="container-botoes">
                         <input type="reset" value="Limpar" class="btn-form btn-limpar">
                         <input type="submit" value="Salvar" class="btn-form btn-salvar">

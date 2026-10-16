@@ -52,7 +52,6 @@ $total_fotos = count($lista_fotos);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo ($viagem['titulo']); ?> - Travely</title>
-    <!-- Correção do caminho do CSS para o padrão absoluto do projeto -->
     <link rel="stylesheet" href="/travely/css/style.css">
 </head>
 
