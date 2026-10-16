@@ -8,10 +8,12 @@ require_once __DIR__ . '/../database/connect.php';
 // FUNÇÕES PARA LOGIN E CADASTRO DE USUÁRIOS:
 
 
-// cadastra_user: Cadastra um novo usuário no sistema com senha criptografada
+// cadastrar_user: Cadastra um novo usuário no sistema com senha criptografada
+
+// cria a função cadastrar_user que recebe a conexão com o banco, nome, e-mail e senha do usuário que será cadastrado.
 function cadastrar_user($conexao, $nome, $email, $senha)
 {
-    // Gera um hash da senha com BCRYPT (ferramenta para criar e verificar hashes de senhas), para que a senha original não seja armazenada no banco de dados, aumentando a segurança do sistema.
+    // Gera um hash da senha com BCRYPT (ferramenta para criar hashes de senhas), para que a senha original não seja armazenada no banco de dados, aumentando a segurança do sistema.
     $senha_hash = password_hash($senha, PASSWORD_BCRYPT);
 
     // Cria a consulta que será preenchida com o novo usuário no banco de dados. Também foi usado o RETURNING id para obter o ID gerado no INSERT
@@ -19,13 +21,17 @@ function cadastrar_user($conexao, $nome, $email, $senha)
 
     // Tenta executar a query e trata possíveis erros
     try {
+
+    // O prepare($sql) prepara a consulta e guarda o resultado em $stmt.
         $stmt = $conexao->prepare($sql);
+
+        // Pelo bindParam conecta o e-mail recebido ($nome) pela função ao parâmetro da consulta SQL (":nome"), faz isso nas próximas duas linhas
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
         $stmt->bindParam(":senha", $senha_hash);
-        // bindParam é usado para vincular os valores aos parâmetros da consulta SQL.
+        // bindParam é usado para associar as variáveis do PHP aos parâmetros da consulta SQL.
 
-        // Se a execução for bem-sucedida, cria a variável usuário guardando todos os dados, pegados pelo fetch, do usuário recém-cadastrado, organizados em um array associativo (id -> 1, nome -> "Luna").
+        // Se a inserção for bem-sucedida, recupera o ID gerado pelo banco em um array associativo pelo fetch
         if ($stmt->execute()) {
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -41,8 +47,11 @@ function cadastrar_user($conexao, $nome, $email, $senha)
     } catch (PDOException $e) {
         if ($e->getCode() == '23505') {
             // Código 23505 no PostgreSQL indica uma violação de chave única, no caso, que o e-mail já existe (UNIQUE)
+
+            // Então, se for erro por conta do e-mail, exibe uma mensagem correspondente
             echo "<p class='alerta erro'>Este e-mail já está cadastrado no sistema!</p>";
         } else {
+            //  Se não, exibe uma mensagem correspondente ao erro que aconteceu
             echo "<p class='alerta erro'>Erro ao cadastrar: " . $e->getMessage() . "</p>";
         }
         return false; // Retorna false para indicar que o cadastro falhou
@@ -54,21 +63,35 @@ function cadastrar_user($conexao, $nome, $email, $senha)
 // cria a função consulta_user que recebe a conexão com o banco e o e-mail do usuário que queremos encontrar.
 function consulta_user($conexao, $email)
 {
+
+// Prepara a consulta ao bcd para buscar o ID, nome, e-mail e senha do usuário que está na tabela usuarios pelo e-mail informado
     $sql = "SELECT id, nome, email, senha FROM usuarios WHERE email = :email";
+
+    // Tenta executar a consulta
     try {
+
+    // prepara a consulta para que ela possa receber o e-mail de maneira segura, armazenando isso em $stmt
         $stmt = $conexao->prepare($sql);
+
+        // Pelo bindParam conecta o e-mail recebido ($email) pela função ao parâmetro da consulta SQL (":email")
         $stmt->bindParam(":email", $email);
+
+        // Executa a busca do usuário no banco de dados
         $stmt->execute();
 
-        // Retorna o array do usuário se não encontrar as informações
+        // recupera o usuário encontrado pelo fetch, organiza os dados em um array associativo (estrutura que armazena os dados em chave e valor, ou seja, $usuario['nome'] -> $usuario é a array, 'name' é a chave e o resultado disso seria o valor, como Luna) pelo PDO::FETCH_ASSOC e armazena o resultado em $usuario
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Devolve o resultado em $usuario para o local onde a função foi chamada.
         return $usuario;
+
+        // Se ocorrer algum erro, o código captura o erro e exibe a mensagem correspondente
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
 }
 
-// dados_dashboard: Função para buscar os dados dos 3 espaços da Dashboard
+// dados_dashboard: Função para buscar os dados dos 3 espaços do dashboard
 function dados_dashboard($conexao, $id_usuario)
 {
     // Calcula o total de viagens, faz a média das notas e soma a diferença de dias
